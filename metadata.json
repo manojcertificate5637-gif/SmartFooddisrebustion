@@ -1,0 +1,6 @@
+{
+  "name": "Smart Food Redistribution Platform",
+  "description": "Professional platform for redistributing surplus food to verified charities, orphanages, and community kitchens with real-time matching and delivery tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

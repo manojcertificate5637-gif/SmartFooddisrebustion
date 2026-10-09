@@ -1,0 +1,119 @@
+{
+  "entities": {
+    "users": {
+      "title": "User",
+      "description": "User profile with role-based access for Hotels, Trusts, and Admins",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string", "maxLength": 100 },
+        "organizationName": { "type": "string", "maxLength": 150 },
+        "organizationType": { "type": "string", "enum": ["Hotel", "Trust", "Admin"] },
+        "role": { "type": "string", "enum": ["hotel", "trust", "admin"] },
+        "email": { "type": "string", "maxLength": 120 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "state": { "type": "string", "maxLength": 60 },
+        "districtCity": { "type": "string", "maxLength": 80 },
+        "fullAddress": { "type": "string", "maxLength": 250 },
+        "postalCode": { "type": "string", "maxLength": 20 },
+        "verificationStatus": { "type": "string", "enum": ["pending", "verified", "rejected"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["fullName", "organizationName", "organizationType", "role", "email", "phone", "verificationStatus"]
+    },
+    "foodListings": {
+      "title": "FoodListing",
+      "description": "Surplus food listing published by a verified hotel or restaurant",
+      "type": "object",
+      "properties": {
+        "hotelId": { "type": "string" },
+        "hotelName": { "type": "string", "maxLength": 150 },
+        "foodName": { "type": "string", "maxLength": 120 },
+        "category": { "type": "string", "enum": ["Prepared Meals", "Bakery & Bread", "Fresh Produce", "Dairy & Eggs", "Packaged & Dry Goods", "Cooked Catering"] },
+        "isVegetarian": { "type": "boolean" },
+        "availableQuantity": { "type": "number" },
+        "numberOfPackets": { "type": "number" },
+        "remainingPackets": { "type": "number" },
+        "unit": { "type": "string", "enum": ["packets", "kg", "trays", "liters"] },
+        "preparationTime": { "type": "string" },
+        "safeUseDeadline": { "type": "string" },
+        "pickupDeadline": { "type": "string" },
+        "storageConditions": { "type": "string", "enum": ["Ambient", "Refrigerated (2-4°C)", "Frozen (≤-18°C)", "Hot Hold (≥60°C)"] },
+        "pickupInstructions": { "type": "string", "maxLength": 400 },
+        "imageUrl": { "type": "string" },
+        "status": { "type": "string", "enum": ["Draft", "Published", "Unavailable", "Partially Reserved", "Fully Reserved", "Completed"] },
+        "address": { "type": "string", "maxLength": 250 },
+        "city": { "type": "string", "maxLength": 80 },
+        "state": { "type": "string", "maxLength": 60 },
+        "postalCode": { "type": "string", "maxLength": 20 },
+        "lat": { "type": "number" },
+        "lng": { "type": "number" },
+        "requestCount": { "type": "number" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["hotelId", "hotelName", "foodName", "category", "numberOfPackets", "remainingPackets", "safeUseDeadline", "pickupDeadline", "status"]
+    },
+    "donationRequests": {
+      "title": "DonationRequest",
+      "description": "Food request and reservation initiated by a Trust or NGO",
+      "type": "object",
+      "properties": {
+        "listingId": { "type": "string" },
+        "foodName": { "type": "string", "maxLength": 120 },
+        "hotelId": { "type": "string" },
+        "hotelName": { "type": "string", "maxLength": 150 },
+        "trustId": { "type": "string" },
+        "trustName": { "type": "string", "maxLength": 150 },
+        "trustPhone": { "type": "string", "maxLength": 30 },
+        "requestedPackets": { "type": "number" },
+        "requestedQuantity": { "type": "number" },
+        "unit": { "type": "string" },
+        "requestedPickupTime": { "type": "string" },
+        "recipientDetails": { "type": "string", "maxLength": 300 },
+        "specialInstructions": { "type": "string", "maxLength": 300 },
+        "status": { "type": "string", "enum": ["REQUESTED", "APPROVED", "PICKUP SCHEDULED", "PICKED UP", "COMPLETED", "REJECTED", "CANCELLED"] },
+        "qrToken": { "type": "string" },
+        "rejectionReason": { "type": "string" },
+        "pickupVerifiedAt": { "type": "string" },
+        "completedAt": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["listingId", "foodName", "hotelId", "hotelName", "trustId", "trustName", "requestedPackets", "status"]
+    },
+    "notifications": {
+      "title": "Notification",
+      "description": "In-app notifications for hotels, trusts, and admins",
+      "type": "object",
+      "properties": {
+        "recipientUserId": { "type": "string" },
+        "recipientOrgType": { "type": "string", "enum": ["Hotel", "Trust", "Admin", "All"] },
+        "title": { "type": "string", "maxLength": 120 },
+        "message": { "type": "string", "maxLength": 350 },
+        "type": { "type": "string", "enum": ["request_received", "request_approved", "request_rejected", "pickup_scheduled", "pickup_completed", "new_food_available", "org_verified"] },
+        "read": { "type": "boolean" },
+        "relatedRequestId": { "type": "string" },
+        "relatedListingId": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["recipientUserId", "title", "message", "type", "read", "createdAt"]
+    },
+    "foodRequirements": {
+      "title": "FoodRequirement",
+      "description": "Demand posted by Trusts needing regular or emergency food supplies",
+      "type": "object",
+      "properties": {
+        "trustId": { "type": "string" },
+        "trustName": { "type": "string", "maxLength": 150 },
+        "category": { "type": "string" },
+        "requiredPackets": { "type": "number" },
+        "urgency": { "type": "string", "enum": ["Low", "Medium", "High", "Emergency"] },
+        "note": { "type": "string", "maxLength": 300 },
+        "status": { "type": "string", "enum": ["Active", "Fulfilled", "Closed"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["trustId", "trustName", "category", "requiredPackets", "urgency", "status"]
+    }
+  }
+}
